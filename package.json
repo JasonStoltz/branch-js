@@ -20,10 +20,11 @@
     "url": "https://github.com/JasonStoltz/branch-js/issues"
   },
   "homepage": "https://github.com/JasonStoltz/branch-js",
-  "dependencies": {
-    "objectdiff": "^1.1.0"
-  },
   "devDependencies": {
-    "jasmine": "^2.1.1"
+    "karma": "~0.12"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/karma start --browsers Chrome --single-run",
+    "postinstall": "bower install"
   }
 }
