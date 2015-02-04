@@ -131,9 +131,9 @@
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = branch;
     }
-    exports.branch = branch;
+    exports.branchjs = branch;
   } else {
-    root.branch = branch;
+    root.branchjs = branch;
   }
 
 }.call(this));

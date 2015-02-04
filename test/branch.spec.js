@@ -60,7 +60,7 @@ describe("branch", function () {
     var branchedObject, originalBranchedObject;
 
     beforeEach(function () {
-      branchedObject = branch(originalObject);
+      branchedObject = branchjs(originalObject);
       originalBranchedObject = clone(branchedObject);
     });
 
@@ -97,7 +97,7 @@ describe("branch", function () {
     var branchedObject;
 
     beforeEach(function () {
-      branchedObject = branch(originalObject);
+      branchedObject = branchjs(originalObject);
     });
 
     it("it should moved HEAD forward, so that the current changes are no longer considered 'changes'", function () {
@@ -132,7 +132,7 @@ describe("branch", function () {
     var branchedObject;
 
     beforeEach(function () {
-      branchedObject = branch(originalObject);
+      branchedObject = branchjs(originalObject);
     });
 
     afterEach(function () {
