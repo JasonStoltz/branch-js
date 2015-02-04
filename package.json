@@ -4,7 +4,7 @@
   "description": "A utility to track and apply changes to javascript objects as if they were git branches.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:JasonStoltz/branch-js.git"
+    "url": "https://github.com/JasonStoltz/branch-js.git"
   },
   "keywords": [
     "javascript",
