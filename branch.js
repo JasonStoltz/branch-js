@@ -3,89 +3,122 @@
   // Establish the root object, `window` in the browser, or `exports` on the server.
   var root = this;
 
-  var branch = function(someObj) {
-    var newObj = angular.copy(someObj);
-    
-    angular.extend(newObj, {
-      $commit: function(fn) {
-        if (fn) fn(this);
-        HEAD = angular.copy(this);
-        return this;
-      },
-      $merge: function(appliedTo, diff) {
-        var changes = diff || objectDiff.diff(BASE, this);
+  //http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object#answer-728694
+  function clone(obj) {
+    var copy;
 
-        function _inspect(parent, currProp, obj) {
-          switch(typeof obj) {
-            case 'object':
-              if (!obj) {
-                break;
-              }
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
 
-              if(obj.changed === 'equal') {
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
 
-              } else if (obj.changed === 'object change' &&  obj.value) {
-                for (var prop in obj.value) {
-                  //Whatever?
-                  if (parent[currProp]) {
-                    _inspect(parent[currProp], prop, obj.value[prop]);
-                  }
-                }
-              } else if (obj.changed === 'removed') {
-                if (parent) {
-                  if (parent instanceof Array) {
-                    if (parent.indexOf(obj.value) >= 0) {
-                      parent.splice(parent.indexOf(obj.value), 1)
-                    }
-                  } else {
-                    delete parent[currProp];
-                  }
-                }
-              } else if (obj.changed === 'added') {
-                if (parent instanceof Array) {
-                  parent.push(obj.value);
-                } else {
-                  parent[currProp] = obj.value;
-                }
-              } else if (obj.changed === 'primitive change') {
-                if (parent instanceof Array) {
-                  if (parent.indexOf(obj.removed) >= 0) {
-                    parent.splice(parent.indexOf(obj.removed), 1)
-                  }
-                  parent.push(obj.added);
-                } else {
-                  parent[currProp] = obj.added;
-                }
-              }
-
-              break;
-            case 'string':
-              break;
-
-            case 'undefined':
-              break;
-
-            default:
-              break;
-          }
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
         }
+        return copy;
+    }
 
-        _inspect({'appliedTo': appliedTo}, "appliedTo", changes);
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
 
-        return this;
-      },
-      $revert: function() {
-        this.$merge(this, objectDiff.diff(this, HEAD));
-      },
-      $hasChanges: function() {
-        return objectDiff.diff(HEAD, this).changed === "object change";
-      },
-      $diff: function() {
-        return objectDiff.diff(HEAD, this);
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+  }
+
+  var branch = function(someObj) {
+    var newObj = clone(someObj);
+    
+    newObj.$commit = function(fn) {
+      if (fn) fn(this);
+      HEAD = clone(this);
+      return this;
+    };
+    newObj.$merge = function(appliedTo, diff) {
+      var changes = diff || objectDiff.diff(BASE, this);
+
+      function _inspect(parent, currProp, obj) {
+        switch(typeof obj) {
+          case 'object':
+            if (!obj) {
+              break;
+            }
+
+            if(obj.changed === 'equal') {
+
+            } else if (obj.changed === 'object change' &&  obj.value) {
+              for (var prop in obj.value) {
+                //Whatever?
+                if (parent[currProp]) {
+                  _inspect(parent[currProp], prop, obj.value[prop]);
+                }
+              }
+            } else if (obj.changed === 'removed') {
+              if (parent) {
+                if (parent instanceof Array) {
+                  if (parent.indexOf(obj.value) >= 0) {
+                    parent.splice(parent.indexOf(obj.value), 1)
+                  }
+                } else {
+                  delete parent[currProp];
+                }
+              }
+            } else if (obj.changed === 'added') {
+              if (parent instanceof Array) {
+                parent.push(obj.value);
+              } else {
+                parent[currProp] = obj.value;
+              }
+            } else if (obj.changed === 'primitive change') {
+              if (parent instanceof Array) {
+                if (parent.indexOf(obj.removed) >= 0) {
+                  parent.splice(parent.indexOf(obj.removed), 1)
+                }
+                parent.push(obj.added);
+              } else {
+                parent[currProp] = obj.added;
+              }
+            }
+
+            break;
+          case 'string':
+            break;
+
+          case 'undefined':
+            break;
+
+          default:
+            break;
+        }
       }
-    });
 
-    var BASE = angular.copy(newObj);
+      _inspect({'appliedTo': appliedTo}, "appliedTo", changes);
+
+      return this;
+    };
+    newObj.$revert = function() {
+      this.$merge(this, objectDiff.diff(this, HEAD));
+    };
+    newObj.$hasChanges = function() {
+      return objectDiff.diff(HEAD, this).changed === "object change";
+    };
+    newObj.$diff = function() {
+      return objectDiff.diff(HEAD, this);
+    };
+
+    var BASE = clone(newObj);
     var HEAD = BASE;
 
     return newObj;

@@ -16,7 +16,6 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'bower_components/object-diff-tiny/objectDiff.js',
-      'bower_components/angular/angular.js',
       'branch.js',
       'test/**/*.spec.js'
     ],
