@@ -1,6 +1,3 @@
-branch.js
-=========
-
 
 ## Usage
 ```
@@ -9,7 +6,7 @@ var obj = {
   prop2: ['val2']
 }
 
-var branchedObj = branch(obj); //Create a 'branched' copy of the original object
+var branchedObj = branchjs(obj); //Create a 'branched' copy of the original object
 console.log(branchedObj.$hasChanges()) //false - no changes have been made to this object
 
 branchedObj.prop1 = 'newval1';
@@ -26,7 +23,7 @@ console.log(branchedObj.prop3) //undefined - we reverted changes back to the las
 branchedObj.$merge(obj);
 console.log(obj.prop1) //val1 - we merged any commited changes back into our original object
 
-branchedObj = branch(obj); //start over
+branchedObj = branchjs(obj); //start over
 branchedObj.prop2.push('val3');
 branchedObj.prop2.push('val4');
 branchedObj.$commit();
