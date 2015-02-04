@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/JasonStoltz/branch-js.svg)](https://travis-ci.org/JasonStoltz/branch-js)
+
 
 ## Usage
 ```
