@@ -22,10 +22,13 @@
   "homepage": "https://github.com/JasonStoltz/branch-js",
   "devDependencies": {
     "karma": "~0.12",
+    "karma-jasmine": "~0.1",
+    "karma-firefox-launcher": "~0.1",
+    "karma-chrome-launcher": "0.1",
     "bower": "1.3.x"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --browsers Chrome --single-run",
+    "test": "node_modules/karma/bin/karma start --browsers Firefox --single-run",
     "postinstall": "bower install"
   }
 }
