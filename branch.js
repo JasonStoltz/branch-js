@@ -5,7 +5,7 @@
 
   var branch = function(someObj) {
     var newObj = angular.copy(someObj);
-
+    
     angular.extend(newObj, {
       $commit: function(fn) {
         if (fn) fn(this);
