@@ -1,5 +1,21 @@
 [![Build Status](https://travis-ci.org/JasonStoltz/branch-js.svg)](https://travis-ci.org/JasonStoltz/branch-js)
 
+## Branch.js
+
+"branching" lets you make changes to an object without directly affecting the original object until you are ready to "merge" those changes back in. Similar to how you might "branch" a git repo, make some changes to it, then "merge" that branch back in.
+ex.:
+```
+var copy = branchjs(obj)
+... Make a bunch of changes to copy here ...
+copy.$commit().$merge(obj)
+```
+
+The most applicable use case for this is probably forms. 
+- You can `branchjs` an object in order to 2-way bind to a form. 
+- A successful form submission would trigger a `$merge` back to the original object
+- a `$revert` could be triggered by a "clear" button, in order to remove all unsaved changes. 
+- You could "pre-load" some form changes to the branched object by making an update and `$commit`ing  them before backing the form. That way, the change is preserved and will be applied on `$merge`, but won't be blown away on a `$revert` (which we probably have bound the clear button)
+- Finally, in addition to just `$merge`ing back to your original object on a succesfull form submission ... since $merge ONLY applies the diff, you coud apply it to any number of objects that the changes might be applicable to.
 
 ## Usage
 ```
