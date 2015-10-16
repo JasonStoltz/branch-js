@@ -1,10 +1,12 @@
+let clone = require('./clone');
+
 /**
  *
  * @param srcObj Object to branch
  * @returns branched Object
  */
 export default function(srcObj) {
-  var newObj = clone(srcObj);
+  let newObj = clone(srcObj);
 
   /**
    * Any outstanding changes are "committed". This means that they will still be applied
@@ -47,10 +49,10 @@ export default function(srcObj) {
   };
 
   /* This represents the object in it's original state at time of branching */
-  var BASE = clone(newObj);
+  let BASE = clone(newObj);
 
   /* This represents the object's current state at the point of last commit */
-  var HEAD = BASE;
+  let HEAD = BASE;
 
   return newObj;
 
@@ -64,9 +66,7 @@ export default function(srcObj) {
 
 
   function merge(appliedTo, diff = objectDiff.diff(BASE, this)) {
-
     inspect({'appliedTo': appliedTo}, "appliedTo", diff);
-
     return this;
   }
 
@@ -81,7 +81,6 @@ export default function(srcObj) {
 
         } else if (obj.changed === 'object change' &&  obj.value) {
           for (var prop in obj.value) {
-            //Whatever?
             if (parent[currProp]) {
               inspect(parent[currProp], prop, obj.value[prop]);
             }
@@ -114,54 +113,15 @@ export default function(srcObj) {
         }
 
         break;
-      case 'string':
-        break;
 
-      case 'undefined':
-        break;
-
-      default:
-        break;
+      case 'string': break;
+      case 'undefined': break;
+      default: break;
     }
   }
 
   function commit(fn) {
     HEAD = clone(this);
     return this;
-  }
-
-  //http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object#answer-728694
-  function clone(obj) {
-    var copy;
-
-    // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) return obj;
-
-    // Handle Date
-    if (obj instanceof Date) {
-      copy = new Date();
-      copy.setTime(obj.getTime());
-      return copy;
-    }
-
-    // Handle Array
-    if (obj instanceof Array) {
-      copy = [];
-      for (var i = 0, len = obj.length; i < len; i++) {
-        copy[i] = clone(obj[i]);
-      }
-      return copy;
-    }
-
-    // Handle Object
-    if (obj instanceof Object) {
-      copy = {};
-      for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-      }
-      return copy;
-    }
-
-    throw new Error("Unable to copy obj! Its type isn't supported.");
   }
 }
