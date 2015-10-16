@@ -1,6 +1,6 @@
 {
   "name": "branchjs",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A utility to track and apply changes to javascript objects as if they were git branches.",
   "repository": {
     "type": "git",
