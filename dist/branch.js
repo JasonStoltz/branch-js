@@ -1,1 +1,243 @@
-var branchjs=function(e){function r(e){var r=document.getElementsByTagName("head")[0],t=document.createElement("script");t.type="text/javascript",t.charset="utf-8",t.src=u.p+""+e+"."+g+".hot-update.js",r.appendChild(t)}function t(e){if("undefined"==typeof XMLHttpRequest)return e(new Error("No browser support"));try{var r=new XMLHttpRequest,t=u.p+""+g+".hot-update.json";r.open("GET",t,!0),r.timeout=1e4,r.send(null)}catch(n){return e(n)}r.onreadystatechange=function(){if(4===r.readyState)if(0===r.status)e(new Error("Manifest request to "+t+" timed out."));else if(404===r.status)e();else if(200!==r.status&&304!==r.status)e(new Error("Manifest request to "+t+" failed."));else{try{var n=JSON.parse(r.responseText)}catch(i){return void e(i)}e(null,n)}}}function n(e){var r=E[e];if(!r)return u;var t=function(t){return r.hot.active?E[t]?(E[t].parents.indexOf(e)<0&&E[t].parents.push(e),r.children.indexOf(t)<0&&r.children.push(t)):w=[e]:(console.warn("[HMR] unexpected require("+t+") from disposed module "+e),w=[]),u(t)};for(var n in u)Object.prototype.hasOwnProperty.call(u,n)&&(t[n]=u[n]);return t.e=function(e,r){"ready"===j&&o("prepare"),x++,u.e(e,function(){function n(){x--,"prepare"===j&&(D[e]||s(e),0===x&&0===_&&d())}try{r.call(null,t)}finally{n()}})},t}function i(e){var r={_acceptedDependencies:{},_declinedDependencies:{},_selfAccepted:!1,_selfDeclined:!1,_disposeHandlers:[],active:!0,accept:function(e,t){if("undefined"==typeof e)r._selfAccepted=!0;else if("function"==typeof e)r._selfAccepted=e;else if("object"==typeof e)for(var n=0;n<e.length;n++)r._acceptedDependencies[e[n]]=t;else r._acceptedDependencies[e]=t},decline:function(e){if("undefined"==typeof e)r._selfDeclined=!0;else if("number"==typeof e)r._declinedDependencies[e]=!0;else for(var t=0;t<e.length;t++)r._declinedDependencies[e[t]]=!0},dispose:function(e){r._disposeHandlers.push(e)},addDisposeHandler:function(e){r._disposeHandlers.push(e)},removeDisposeHandler:function(e){var t=r._disposeHandlers.indexOf(e);t>=0&&r._disposeHandlers.splice(t,1)},check:c,apply:l,status:function(e){return e?void m.push(e):j},addStatusHandler:function(e){m.push(e)},removeStatusHandler:function(e){var r=m.indexOf(e);r>=0&&m.splice(r,1)},data:O[e]};return r}function o(e){j=e;for(var r=0;r<m.length;r++)m[r].call(null,e)}function a(e){var r=+e+""===e;return r?+e:e}function c(e,r){if("idle"!==j)throw new Error("check() is only allowed in idle status");"function"==typeof e?(b=!1,r=e):(b=e,r=r||function(e){if(e)throw e}),o("check"),t(function(e,t){if(e)return r(e);if(!t)return o("idle"),void r(null,null);H={},A={},D={};for(var n=0;n<t.c.length;n++)A[t.c[n]]=!0;y=t.h,o("prepare"),h=r,v={};var i=0;s(i),"prepare"===j&&0===x&&0===_&&d()})}function f(e,r){if(A[e]&&H[e]){H[e]=!1;for(var t in r)Object.prototype.hasOwnProperty.call(r,t)&&(v[t]=r[t]);0===--_&&0===x&&d()}}function s(e){A[e]?(H[e]=!0,_++,r(e)):D[e]=!0}function d(){o("ready");var e=h;if(h=null,e)if(b)l(b,e);else{var r=[];for(var t in v)Object.prototype.hasOwnProperty.call(v,t)&&r.push(a(t));e(null,r)}}function l(r,t){function n(e){for(var r=[e],t={},n=r.slice();n.length>0;){var o=n.pop(),e=E[o];if(e&&!e.hot._selfAccepted){if(e.hot._selfDeclined)return new Error("Aborted because of self decline: "+o);if(0===o)return;for(var a=0;a<e.parents.length;a++){var c=e.parents[a],f=E[c];if(f.hot._declinedDependencies[o])return new Error("Aborted because of declined dependency: "+o+" in "+c);r.indexOf(c)>=0||(f.hot._acceptedDependencies[o]?(t[c]||(t[c]=[]),i(t[c],[o])):(delete t[c],r.push(c),n.push(c)))}}}return[r,t]}function i(e,r){for(var t=0;t<r.length;t++){var n=r[t];e.indexOf(n)<0&&e.push(n)}}if("ready"!==j)throw new Error("apply() is only allowed in ready status");"function"==typeof r?(t=r,r={}):r&&"object"==typeof r?t=t||function(e){if(e)throw e}:(r={},t=t||function(e){if(e)throw e});var c={},f=[],s={};for(var d in v)if(Object.prototype.hasOwnProperty.call(v,d)){var l=a(d),p=n(l);if(!p){if(r.ignoreUnaccepted)continue;return o("abort"),t(new Error("Aborted because "+l+" is not accepted"))}if(p instanceof Error)return o("abort"),t(p);s[l]=v[l],i(f,p[0]);for(var l in p[1])Object.prototype.hasOwnProperty.call(p[1],l)&&(c[l]||(c[l]=[]),i(c[l],p[1][l]))}for(var h=[],b=0;b<f.length;b++){var l=f[b];E[l]&&E[l].hot._selfAccepted&&h.push({module:l,errorHandler:E[l].hot._selfAccepted})}o("dispose");for(var m=f.slice();m.length>0;){var l=m.pop(),_=E[l];if(_){for(var x={},D=_.hot._disposeHandlers,H=0;H<D.length;H++){var A=D[H];A(x)}O[l]=x,_.hot.active=!1,delete E[l];for(var H=0;H<_.children.length;H++){var P=E[_.children[H]];if(P){var k=P.parents.indexOf(l);k>=0&&P.parents.splice(k,1)}}}}for(var l in c)if(Object.prototype.hasOwnProperty.call(c,l))for(var _=E[l],M=c[l],H=0;H<M.length;H++){var T=M[H],k=_.children.indexOf(T);k>=0&&_.children.splice(k,1)}o("apply"),g=y;for(var l in s)Object.prototype.hasOwnProperty.call(s,l)&&(e[l]=s[l]);var q=null;for(var l in c)if(Object.prototype.hasOwnProperty.call(c,l)){for(var _=E[l],M=c[l],$=[],b=0;b<M.length;b++){var T=M[b],A=_.hot._acceptedDependencies[T];$.indexOf(A)>=0||$.push(A)}for(var b=0;b<$.length;b++){var A=$[b];try{A(c)}catch(S){q||(q=S)}}}for(var b=0;b<h.length;b++){var U=h[b],l=U.module;w=[l];try{u(l)}catch(S){if("function"==typeof U.errorHandler)try{U.errorHandler(S)}catch(S){q||(q=S)}else q||(q=S)}}return q?(o("fail"),t(q)):(o("idle"),void t(null,f))}function u(r){if(E[r])return E[r].exports;var t=E[r]={exports:{},id:r,loaded:!1,hot:i(r),parents:w,children:[]};return e[r].call(t.exports,t,t.exports,n(r)),t.loaded=!0,t.exports}var p=this.webpackHotUpdatebranchjs;this.webpackHotUpdatebranchjs=function(e,r){f(e,r),p&&p(e,r)};var h,v,y,b=!0,g="36696245da7b0d347618",O={},w=[],m=[],j="idle",_=0,x=0,D={},H={},A={},E={};return u.m=e,u.c=E,u.p="",u.h=function(){return g},n(0)(0)}([function(e,r,t){"use strict";Object.defineProperty(r,"__esModule",{value:!0});var n=t(1);r["default"]=function(e){function r(){return"object change"===objectDiff.diff(s,this).changed}function t(){this.$merge(this,objectDiff.diff(this,s))}function i(e){var r=arguments.length<=1||void 0===arguments[1]?objectDiff.diff(f,this):arguments[1];return o({appliedTo:e},"appliedTo",r),this}function o(e,r,t){switch(typeof t){case"object":if(!t)break;if("equal"===t.changed);else if("object change"===t.changed&&t.value)for(var n in t.value)e[r]&&o(e[r],n,t.value[n]);else"removed"===t.changed?e&&(e instanceof Array?e.indexOf(t.value)>=0&&e.splice(e.indexOf(t.value),1):delete e[r]):"added"===t.changed?e instanceof Array?e.push(t.value):e[r]=t.value:"primitive change"===t.changed&&(e instanceof Array?(e.indexOf(t.removed)>=0&&e.splice(e.indexOf(t.removed),1),e.push(t.added)):e[r]=t.added);break;case"string":break;case"undefined":}}function a(e){return s=n(this),this}var c=n(e);c.$commit=a,c.$merge=i,c.$revert=t,c.$hasChanges=r,c.$diff=function(){return objectDiff.diff(s,this)};var f=n(c),s=f;return c},e.exports=r["default"]},function(e,r){"use strict";function t(e){if(null==e||"object"!=typeof e)return e;if(e instanceof Date){var r=new Date;return r.setTime(e.getTime()),r}if(e instanceof Array)return e.map(function(e){return t(e)});if(e instanceof Object){var r={};for(var n in e)e.hasOwnProperty(n)&&(r[n]=t(e[n]));return r}throw new Error("Unable to copy obj! Its type isn't supported.")}Object.defineProperty(r,"__esModule",{value:!0}),r["default"]=t,e.exports=r["default"]}]);
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["branchjs"] = factory();
+	else
+		root["branchjs"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var clone = __webpack_require__(1);
+
+	/**
+	 *
+	 * @param srcObj Object to branch
+	 * @returns branched Object
+	 */
+
+	exports['default'] = function (srcObj) {
+	  var newObj = clone(srcObj);
+
+	  /**
+	   * Any outstanding changes are "committed". This means that they will still be applied
+	   * in a merge, but are not considered when checking "$hasChanges".
+	   *
+	   * @returns this - for chaining
+	   */
+	  newObj.$commit = commit;
+
+	  /**
+	   *
+	   * Merges all changes since branch was created to the supplied "appliedTo" object. It will
+	   * merge all changes, even changes that are uncommitted.
+	   *
+	   * @param appliedTo Object to apply changes to
+	   * @param diff (optional) If supplied, this diff will be applied instead of current changes
+	   * @returns this - for chaining
+	   */
+	  newObj.$merge = merge;
+
+	  /**
+	   * Reverts all changes since last commit
+	   *
+	   * @returns this - for chaining
+	   */
+	  newObj.$revert = revert;
+
+	  /**
+	   * Has the object changed since branching?
+	   */
+	  newObj.$hasChanges = hasChanges;
+
+	  /**
+	   * What are the current changes since the branch was created, or the last commit?
+	   *
+	   * @returns diff object (https://github.com/NV/objectDiff.js)
+	   */
+	  newObj.$diff = function () {
+	    return objectDiff.diff(HEAD, this);
+	  };
+
+	  /* This represents the object in it's original state at time of branching */
+	  var BASE = clone(newObj);
+
+	  /* This represents the object's current state at the point of last commit */
+	  var HEAD = BASE;
+
+	  return newObj;
+
+	  function hasChanges() {
+	    return objectDiff.diff(HEAD, this).changed === "object change";
+	  }
+
+	  function revert() {
+	    this.$merge(this, objectDiff.diff(this, HEAD));
+	  }
+
+	  function merge(appliedTo) {
+	    var diff = arguments.length <= 1 || arguments[1] === undefined ? objectDiff.diff(BASE, this) : arguments[1];
+
+	    inspect({ 'appliedTo': appliedTo }, "appliedTo", diff);
+	    return this;
+	  }
+
+	  function inspect(parent, currProp, obj) {
+	    switch (typeof obj) {
+	      case 'object':
+	        if (!obj) {
+	          break;
+	        }
+
+	        if (obj.changed === 'equal') {} else if (obj.changed === 'object change' && obj.value) {
+	          for (var prop in obj.value) {
+	            if (parent[currProp]) {
+	              inspect(parent[currProp], prop, obj.value[prop]);
+	            }
+	          }
+	        } else if (obj.changed === 'removed') {
+	          if (parent) {
+	            if (parent instanceof Array) {
+	              if (parent.indexOf(obj.value) >= 0) {
+	                parent.splice(parent.indexOf(obj.value), 1);
+	              }
+	            } else {
+	              delete parent[currProp];
+	            }
+	          }
+	        } else if (obj.changed === 'added') {
+	          if (parent instanceof Array) {
+	            parent.push(obj.value);
+	          } else {
+	            parent[currProp] = obj.value;
+	          }
+	        } else if (obj.changed === 'primitive change') {
+	          if (parent instanceof Array) {
+	            if (parent.indexOf(obj.removed) >= 0) {
+	              parent.splice(parent.indexOf(obj.removed), 1);
+	            }
+	            parent.push(obj.added);
+	          } else {
+	            parent[currProp] = obj.added;
+	          }
+	        }
+
+	        break;
+
+	      case 'string':
+	        break;
+	      case 'undefined':
+	        break;
+	      default:
+	        break;
+	    }
+	  }
+
+	  function commit(fn) {
+	    HEAD = clone(this);
+	    return this;
+	  }
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	//http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object#answer-728694
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports["default"] = clone;
+
+	function clone(obj) {
+
+	  // Handle the 3 simple types, and null or undefined
+	  if (null == obj || "object" != typeof obj) return obj;
+
+	  // Handle Date
+	  if (obj instanceof Date) {
+	    var copy = new Date();
+	    copy.setTime(obj.getTime());
+	    return copy;
+	  }
+
+	  // Handle Array
+	  if (obj instanceof Array) {
+	    return obj.map(function (e) {
+	      return clone(e);
+	    });
+	  }
+
+	  // Handle Object
+	  if (obj instanceof Object) {
+	    var copy = {};
+	    for (var attr in obj) {
+	      if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+	    }
+	    return copy;
+	  }
+
+	  throw new Error("Unable to copy obj! Its type isn't supported.");
+	}
+
+	module.exports = exports["default"];
+
+/***/ }
+/******/ ])
+});
+;
