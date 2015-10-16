@@ -59,7 +59,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	var clone = __webpack_require__(1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _clone = __webpack_require__(1);
+
+	var _clone2 = _interopRequireDefault(_clone);
 
 	/**
 	 *
@@ -68,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	exports['default'] = function (srcObj) {
-	  var newObj = clone(srcObj);
+	  var newObj = (0, _clone2['default'])(srcObj);
 
 	  /**
 	   * Any outstanding changes are "committed". This means that they will still be applied
@@ -111,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /* This represents the object in it's original state at time of branching */
-	  var BASE = clone(newObj);
+	  var BASE = (0, _clone2['default'])(newObj);
 
 	  /* This represents the object's current state at the point of last commit */
 	  var HEAD = BASE;
@@ -185,7 +190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  function commit(fn) {
-	    HEAD = clone(this);
+	    HEAD = (0, _clone2['default'])(this);
 	    return this;
 	  }
 	};

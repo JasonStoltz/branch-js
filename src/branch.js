@@ -1,4 +1,4 @@
-let clone = require('./clone');
+import clone from './clone'
 
 /**
  *
