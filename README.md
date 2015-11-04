@@ -49,7 +49,7 @@ console.log(branchedObj.prop3) //undefined - we reverted changes back to the las
 ### $merge
 ```javascript
 branchedObj.$merge(obj);
-console.log(obj.prop1) //val1 - we merged any commited changes back into our original object
+console.log(obj.prop1) //newval1 - we merged any commited changes back into our original object
 
 branchedObj = branchjs(obj); //start over
 branchedObj.prop2.push('val3');
